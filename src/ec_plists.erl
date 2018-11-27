@@ -881,10 +881,10 @@ runmany_wrap(Fun, Parent) ->
             ok;
         exit:Reason ->
             Parent ! {erlang:self(), error, Reason};
-        error:R ->
-            Parent ! {erlang:self(), error, {R, erlang:get_stacktrace()}};
-        throw:R ->
-            Parent ! {erlang:self(), error, {{nocatch, R}, erlang:get_stacktrace()}}
+        error:R:ST ->
+            Parent ! {erlang:self(), error, {R, ST}};
+        throw:R:ST ->
+            Parent ! {erlang:self(), error, {{nocatch, R}, ST}}
     end.
 -else.
 runmany_wrap(Fun, Parent) ->
